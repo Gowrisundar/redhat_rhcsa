@@ -827,4 +827,45 @@ dr-xr-x---. 4 root root 173 Jun  2 06:06 ..
 -rw-r--r--. 1 root root 141 Jun  2 06:08 .bash_profile
 -rw-r--r--. 1 root root 492 Jun  2 06:08 .bashrc
 -rw-r-----. 1 root root   0 Jun  2 06:08 harry
+[root@servera ~]# grep "home" /etc/passwd
+student:x:1000:1000:Student User:/home/student:/bin/bash
+devops:x:1001:1001:Devops User:/home/devops:/bin/bash
+cloud-user:x:1002:1002:Cloud User:/home/cloud-user:/bin/bash
+harry:x:1003:1004::/home/harry:/bin/bash
+natasha:x:1004:1005::/home/natasha:/bin/bash
+sarah:x:1005:1006::/home/sarah:/sbin/nologin
+[root@servera ~]# grep "home" /etc/passwd > /root/search.txt
+[root@servera ~]# cat /root/search.txt
+student:x:1000:1000:Student User:/home/student:/bin/bash
+devops:x:1001:1001:Devops User:/home/devops:/bin/bash
+cloud-user:x:1002:1002:Cloud User:/home/cloud-user:/bin/bash
+harry:x:1003:1004::/home/harry:/bin/bash
+natasha:x:1004:1005::/home/natasha:/bin/bash
+sarah:x:1005:1006::/home/sarah:/sbin/nologin
+[root@servera ~]# useradd -u 1326 alies
+[root@servera ~]# id alies
+uid=1326(alies) gid=1326(alies) groups=1326(alies)
+[root@servera ~]# tar -zcvf /root/test.tgz /var/tmp
+tar: Removing leading `/' from member names
+/var/tmp/
+/var/tmp/cloud-init/
+/var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-dbus-broker.service-r9giQW/
+/var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-dbus-broker.service-r9giQW/tmp/
+/var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-systemd-logind.service-15vAQc/
+/var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-systemd-logind.service-15vAQc/tmp/
+/var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-httpd.service-2y2AeX/
+/var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-httpd.service-2y2AeX/tmp/
+/var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-chronyd.service-v3OwfT/
+/var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-chronyd.service-v3OwfT/tmp/
+[root@servera ~]# tar -tf /root/test.tgz
+var/tmp/
+var/tmp/cloud-init/
+var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-dbus-broker.service-r9giQW/
+var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-dbus-broker.service-r9giQW/tmp/
+var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-systemd-logind.service-15vAQc/
+var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-systemd-logind.service-15vAQc/tmp/
+var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-httpd.service-2y2AeX/
+var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-httpd.service-2y2AeX/tmp/
+var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-chronyd.service-v3OwfT/
+var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-chronyd.service-v3OwfT/tmp/
 [root@servera ~]# 
