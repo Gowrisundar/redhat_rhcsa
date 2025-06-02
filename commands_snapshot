@@ -868,4 +868,280 @@ var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-httpd.service-2y2AeX/
 var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-httpd.service-2y2AeX/tmp/
 var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-chronyd.service-v3OwfT/
 var/tmp/systemd-private-36a6499d05e040c38723a108831a927f-chronyd.service-v3OwfT/tmp/
-[root@servera ~]# 
+[root@servera ~]# su - natasha
+[natasha@servera ~]$ vim.bashrc
+-bash: vim.bashrc: command not found
+[natasha@servera ~]$ vim .bashrc
+[natasha@servera ~]$ exit
+logout
+[root@servera ~]# su - natasha
+Last login: Mon Jun  2 06:13:52 UTC 2025 on pts/0
+[natasha@servera ~]$ touch apple
+[natasha@servera ~]$ mkdir dir1
+[natasha@servera ~]$ ls -l
+total 0
+-r--------. 1 natasha natasha 0 Jun  2 06:14 apple
+dr-x------. 2 natasha natasha 6 Jun  2 06:15 dir1
+[natasha@servera ~]$ vim .bashrc
+[natasha@servera ~]$ exit
+logout
+[root@servera ~]# su - alies
+[alies@servera ~]$ vim RHCSA
+[alies@servera ~]$ chmod a+x RHCSA
+[alies@servera ~]$ ./RHCSA
+Welcome to EX200 Exam
+[alies@servera ~]$ vim .bashrc
+[alies@servera ~]$ exit
+logout
+[root@servera ~]# su - alies
+Last login: Mon Jun  2 06:16:06 UTC 2025 on pts/0
+Welcome to EX200 Exam
+[alies@servera ~]$ vim .bashrc
+[alies@servera ~]$ exit
+logout
+[root@servera ~]# exit
+logout
+Connection to servera closed.
+[student@workstation ~]$ lab start con
+console-commands      console-write         containers-lifecycle  net-configure         services-control
+console-regex         containers-basics     containers-review     processes-control     ssh-configure
+console-review        containers-creating   edit-bashconfig       selinux-filecontexts  
+[student@workstation ~]$ lab start con
+console-commands      console-write         containers-lifecycle  net-configure         services-control
+console-regex         containers-basics     containers-review     processes-control     ssh-configure
+console-review        containers-creating   edit-bashconfig       selinux-filecontexts  
+[student@workstation ~]$ lab start con
+console-commands      console-write         containers-lifecycle  net-configure         services-control
+console-regex         containers-basics     containers-review     processes-control     ssh-configure
+console-review        containers-creating   edit-bashconfig       selinux-filecontexts  
+[student@workstation ~]$ lab start containers-
+containers-basics     containers-creating   containers-lifecycle  containers-review     
+[student@workstation ~]$ lab start containers-
+containers-basics     containers-creating   containers-lifecycle  containers-review     
+[student@workstation ~]$ lab start containers-lifecycle 
+
+Starting lab.
+
+ · Checking lab systems ............................................................................................ SUCCESS
+ · Installing the container tools on servera ....................................................................... SUCCESS
+ · Removing containers and container images from servera ........................................................... SUCCESS
+ · Creating required user contsvc on servera ....................................................................... SUCCESS
+
+[student@workstation ~]$ ssh student@servera
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Register this system with Red Hat Insights: insights-client --register
+Create an account or view all your systems at https://red.ht/insights-dashboard
+Last login: Mon Jul  1 08:53:38 2024 from 172.25.252.254
+[student@servera ~]$ podman login -u admin -p redhat321 registry.lab.example.com --tls-verify=false
+Login Succeeded!
+[student@servera ~]$ vim Containerfile
+[student@servera ~]$ podman build -t monitor .
+STEP 1/3: FROM registry.lab.example.com/ubi8/ubi
+Trying to pull registry.lab.example.com/ubi8/ubi:latest...
+Error: creating build container: initializing source docker://registry.lab.example.com/ubi8/ubi:latest: pinging container registry registry.lab.example.com: Get "https://registry.lab.example.com/v2/": tls: failed to verify certificate: x509: certificate relies on legacy Common Name field, use SANs instead
+[student@servera ~]$ podman build -t monitor . --t
+--tag         (tagged `name` to apply to the built image)
+--target      (set the target build stage to build)
+--timestamp   (set created timestamp to the specified epoch seconds to allow for deterministic builds, defaults to current t…)
+--tls-verify  (require HTTPS and verify certificates when accessing the registry)
+[student@servera ~]$ podman build -t monitor . --t
+--tag         (tagged `name` to apply to the built image)
+--target      (set the target build stage to build)
+--timestamp   (set created timestamp to the specified epoch seconds to allow for deterministic builds, defaults to current t…)
+--tls-verify  (require HTTPS and verify certificates when accessing the registry)
+[student@servera ~]$ podman build -t monitor . --tls-verify=false
+STEP 1/3: FROM registry.lab.example.com/ubi8/ubi
+Trying to pull registry.lab.example.com/ubi8/ubi:latest...
+Getting image source signatures
+Copying blob 2efec45cd878 done  
+Copying config c70d72aaeb done  
+Writing manifest to image destination
+STEP 2/3: RUN dnf install httpd -y
+Updating Subscription Management repositories.
+Unable to read consumer identity
+
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+Red Hat Universal Base Image 8 (RPMs) - BaseOS  1.3 MB/s | 733 kB     00:00    
+Red Hat Universal Base Image 8 (RPMs) - AppStre  36 MB/s | 3.4 MB     00:00    
+Red Hat Universal Base Image 8 (RPMs) - CodeRea 2.7 MB/s | 187 kB     00:00    
+Dependencies resolved.
+====================================================================================================
+ Package              Arch    Version                                    Repository             Size
+====================================================================================================
+Installing:
+ httpd                x86_64  2.4.37-65.module+el8.10.0+22756+938009b1.3 ubi-8-appstream-rpms  1.4 M
+Installing dependencies:
+ apr                  x86_64  1.6.3-12.el8                               ubi-8-appstream-rpms  130 k
+ apr-util             x86_64  1.6.1-9.el8                                ubi-8-appstream-rpms  106 k
+ httpd-filesystem     noarch  2.4.37-65.module+el8.10.0+22756+938009b1.3 ubi-8-appstream-rpms   45 k
+ httpd-tools          x86_64  2.4.37-65.module+el8.10.0+22756+938009b1.3 ubi-8-appstream-rpms  112 k
+ mailcap              noarch  2.1.48-3.el8                               ubi-8-baseos-rpms      39 k
+ mod_http2            x86_64  1.15.7-10.module+el8.10.0+22750+88d36e3a.3 ubi-8-appstream-rpms  156 k
+ redhat-logos-httpd   noarch  84.5-2.el8                                 ubi-8-baseos-rpms      29 k
+Installing weak dependencies:
+ apr-util-bdb         x86_64  1.6.1-9.el8                                ubi-8-appstream-rpms   25 k
+ apr-util-openssl     x86_64  1.6.1-9.el8                                ubi-8-appstream-rpms   27 k
+Enabling module streams:
+ httpd                        2.4                                                                   
+
+Transaction Summary
+====================================================================================================
+Install  10 Packages
+
+Total download size: 2.1 M
+Installed size: 5.5 M
+Downloading Packages:
+(1/10): redhat-logos-httpd-84.5-2.el8.noarch.rp 936 kB/s |  29 kB     00:00    
+(2/10): mailcap-2.1.48-3.el8.noarch.rpm         1.2 MB/s |  39 kB     00:00    
+(3/10): apr-util-1.6.1-9.el8.x86_64.rpm          12 MB/s | 106 kB     00:00    
+(4/10): apr-util-bdb-1.6.1-9.el8.x86_64.rpm     2.3 MB/s |  25 kB     00:00    
+(5/10): apr-util-openssl-1.6.1-9.el8.x86_64.rpm 6.5 MB/s |  27 kB     00:00    
+(6/10): apr-1.6.3-12.el8.x86_64.rpm             2.7 MB/s | 130 kB     00:00    
+(7/10): httpd-filesystem-2.4.37-65.module+el8.1 9.1 MB/s |  45 kB     00:00    
+(8/10): httpd-tools-2.4.37-65.module+el8.10.0+2  12 MB/s | 112 kB     00:00    
+(9/10): mod_http2-1.15.7-10.module+el8.10.0+227  21 MB/s | 156 kB     00:00    
+(10/10): httpd-2.4.37-65.module+el8.10.0+22756+  57 MB/s | 1.4 MB     00:00    
+--------------------------------------------------------------------------------
+Total                                            28 MB/s | 2.1 MB     00:00     
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                        1/1 
+  Installing       : apr-1.6.3-12.el8.x86_64                               1/10 
+  Running scriptlet: apr-1.6.3-12.el8.x86_64                               1/10 
+  Installing       : apr-util-bdb-1.6.1-9.el8.x86_64                       2/10 
+  Installing       : apr-util-openssl-1.6.1-9.el8.x86_64                   3/10 
+  Installing       : apr-util-1.6.1-9.el8.x86_64                           4/10 
+  Running scriptlet: apr-util-1.6.1-9.el8.x86_64                           4/10 
+  Installing       : httpd-tools-2.4.37-65.module+el8.10.0+22756+938009    5/10 
+  Running scriptlet: httpd-filesystem-2.4.37-65.module+el8.10.0+22756+9    6/10 
+  Installing       : httpd-filesystem-2.4.37-65.module+el8.10.0+22756+9    6/10 
+  Installing       : redhat-logos-httpd-84.5-2.el8.noarch                  7/10 
+  Installing       : mailcap-2.1.48-3.el8.noarch                           8/10 
+  Installing       : mod_http2-1.15.7-10.module+el8.10.0+22750+88d36e3a    9/10 
+  Installing       : httpd-2.4.37-65.module+el8.10.0+22756+938009b1.3.x   10/10 
+  Running scriptlet: httpd-2.4.37-65.module+el8.10.0+22756+938009b1.3.x   10/10 
+  Verifying        : mailcap-2.1.48-3.el8.noarch                           1/10 
+  Verifying        : redhat-logos-httpd-84.5-2.el8.noarch                  2/10 
+  Verifying        : apr-1.6.3-12.el8.x86_64                               3/10 
+  Verifying        : apr-util-1.6.1-9.el8.x86_64                           4/10 
+  Verifying        : apr-util-bdb-1.6.1-9.el8.x86_64                       5/10 
+  Verifying        : apr-util-openssl-1.6.1-9.el8.x86_64                   6/10 
+  Verifying        : httpd-2.4.37-65.module+el8.10.0+22756+938009b1.3.x    7/10 
+  Verifying        : httpd-filesystem-2.4.37-65.module+el8.10.0+22756+9    8/10 
+  Verifying        : httpd-tools-2.4.37-65.module+el8.10.0+22756+938009    9/10 
+  Verifying        : mod_http2-1.15.7-10.module+el8.10.0+22750+88d36e3a   10/10 
+Installed products updated.
+
+Installed:
+  apr-1.6.3-12.el8.x86_64                                                       
+  apr-util-1.6.1-9.el8.x86_64                                                   
+  apr-util-bdb-1.6.1-9.el8.x86_64                                               
+  apr-util-openssl-1.6.1-9.el8.x86_64                                           
+  httpd-2.4.37-65.module+el8.10.0+22756+938009b1.3.x86_64                       
+  httpd-filesystem-2.4.37-65.module+el8.10.0+22756+938009b1.3.noarch            
+  httpd-tools-2.4.37-65.module+el8.10.0+22756+938009b1.3.x86_64                 
+  mailcap-2.1.48-3.el8.noarch                                                   
+  mod_http2-1.15.7-10.module+el8.10.0+22750+88d36e3a.3.x86_64                   
+  redhat-logos-httpd-84.5-2.el8.noarch                                          
+
+Complete!
+--> af9b90746095
+STEP 3/3: CMD ["/usr/sbin/httpd","-D","FOREGROUND"]
+COMMIT monitor
+--> b8774ffc01a3
+Successfully tagged localhost/monitor:latest
+b8774ffc01a334f153b4b22b31a6bee3de249d8d44208ef508478aca6e1448c1
+[student@servera ~]$ podman images
+REPOSITORY                         TAG         IMAGE ID      CREATED        SIZE
+localhost/monitor                  latest      b8774ffc01a3  8 seconds ago  243 MB
+registry.lab.example.com/ubi8/ubi  latest      c70d72aaebb4  14 months ago  212 MB
+[student@servera ~]$ podman run -d --name ascii2pdf monitor
+425ce6ad7e00c6bde24b228a2935d5a90d4f90b0e0c3f9791afae39f75ae40aa
+[student@servera ~]$ podman ps
+CONTAINER ID  IMAGE                     COMMAND               CREATED        STATUS        PORTS       NAMES
+425ce6ad7e00  localhost/monitor:latest  /usr/sbin/httpd -...  4 seconds ago  Up 4 seconds              ascii2pdf
+[student@servera ~]$ mkdir -p .config/systemd/user
+[student@servera ~]$ cd .config/systemd/
+[student@servera systemd]$ cd user
+[student@servera user]$ podman generate systemd --name ascii2pdf --new --files
+/home/student/.config/systemd/user/container-ascii2pdf.service
+[student@servera user]$ systemctl --user daemon-reload 
+[student@servera user]$ podman stop ascii2pdf 
+ascii2pdf
+[student@servera user]$ podman rm ascii2pdf 
+ascii2pdf
+[student@servera user]$ systemctl --user enable --now container-ascii2pdf.service 
+Created symlink /home/student/.config/systemd/user/default.target.wants/container-ascii2pdf.service → /home/student/.config/systemd/user/container-ascii2pdf.service.
+[student@servera user]$ systemctl --user status container-ascii2pdf.service 
+● container-ascii2pdf.service - Podman container-ascii2pdf.service
+     Loaded: loaded (/home/student/.config/systemd/user/container-ascii2pdf.service; enabled; preset: disabled)
+     Active: active (running) since Mon 2025-06-02 06:30:37 UTC; 21s ago
+       Docs: man:podman-generate-systemd(1)
+   Main PID: 33408 (conmon)
+      Tasks: 2 (limit: 24269)
+     Memory: 1.2M
+        CPU: 177ms
+     CGroup: /user.slice/user-1000.slice/user@1000.service/app.slice/container-ascii2pdf.service
+             ├─33405 /usr/bin/slirp4netns --disable-host-loopback --mtu=65520 --enable-sandbox --enable-seccomp --enable-ipv6>
+             └─33408 /usr/bin/conmon --api-version 1 -c 1b83402bbdc668a940d771336481b8884f38267de24566c91a037e80e6d1046e -u 1>
+
+Jun 02 06:30:37 servera.lab.example.com systemd[32698]: Starting Podman container-ascii2pdf.service...
+Jun 02 06:30:37 servera.lab.example.com podman[33394]: 2025-06-02 06:30:37.551421238 +0000 UTC m=+0.115060365 image pull b877>
+Jun 02 06:30:37 servera.lab.example.com podman[33394]: 2025-06-02 06:30:37.566273862 +0000 UTC m=+0.129912972 container creat>
+Jun 02 06:30:37 servera.lab.example.com podman[33394]: 2025-06-02 06:30:37.610272839 +0000 UTC m=+0.173911954 container init >
+Jun 02 06:30:37 servera.lab.example.com systemd[32698]: Started Podman container-ascii2pdf.service.
+Jun 02 06:30:37 servera.lab.example.com podman[33394]: 2025-06-02 06:30:37.618308053 +0000 UTC m=+0.181947161 container start>
+Jun 02 06:30:37 servera.lab.example.com podman[33394]: 1b83402bbdc668a940d771336481b8884f38267de24566c91a037e80e6d1046e
+Jun 02 06:30:37 servera.lab.example.com ascii2pdf[33408]: AH00558: httpd: Could not reliably determine the server's fully qua>
+[student@servera user]$ loginctl enable-linger student
+[student@servera user]$ exit
+logout
+Connection to servera closed.
+[student@workstation ~]$ ssh root@servera
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Register this system with Red Hat Insights: insights-client --register
+Create an account or view all your systems at https://red.ht/insights-dashboard
+Last login: Mon Jun  2 06:00:50 2025 from 172.25.250.9
+[root@servera ~]# init 6
+[root@servera ~]# Connection to servera closed by remote host.
+Connection to servera closed.
+[student@workstation ~]$ ssh student@servera
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Register this system with Red Hat Insights: insights-client --register
+Create an account or view all your systems at https://red.ht/insights-dashboard
+Last login: Mon Jun  2 06:20:42 2025 from 172.25.250.9
+[student@servera ~]$ podman ps
+CONTAINER ID  IMAGE                     COMMAND               CREATED        STATUS        PORTS       NAMES
+a5059d115b5c  localhost/monitor:latest  /usr/sbin/httpd -...  9 seconds ago  Up 9 seconds              ascii2pdf
+[student@servera ~]$ su - root
+Password: 
+Last login: Mon Jun  2 06:31:43 UTC 2025 from 172.25.250.9 on pts/0
+[root@servera ~]# chmod 1777 /opt
+[root@servera ~]# exit
+logout
+[student@servera ~]$ mkdir /opt/files
+[student@servera ~]$ mkdir /opt/processed
+[student@servera ~]$ podman exec -it ascii2pdf /bin/bash
+[root@a5059d115b5c /]# mkdir /opt/incoming
+[root@a5059d115b5c /]# mkdir /opt/outcoming
+[root@a5059d115b5c /]# exit
+exit
+[student@servera ~]$ cd .config/systemd/user/
+[student@servera user]$ vim container-ascii2pdf.service 
+container-ascii2pdf.service  default.target.wants/        
+[student@servera user]$ vim container-ascii2pdf.service 
+[student@servera user]$ systemctl --user daemon-reload 
+[student@servera user]$ systemctl --user restart container-ascii2pdf.service 
+[student@servera user]$ touch /opt/files/apple
+[student@servera user]$ podman exec ascii2pdf ls /opt/files/
+ls: cannot access '/opt/files/': No such file or directory
+[student@servera user]$ podman exec ascii2pdf ls /opt/incoming/
+apple
+[student@servera user]$ 
