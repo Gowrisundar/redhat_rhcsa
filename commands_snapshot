@@ -1,1 +1,399 @@
+[student@workstation ~]$ lab start boot-resetting
+
+Starting lab.
+
+ · Checking lab systems ............................................................................................ SUCCESS
+ · Updating GRUB2 countdown on servera ............................................................................. SUCCESS
+ · Updating root password on servera ............................................................................... SUCCESS
+ · Removing dracut packages on servera ............................................................................. SUCCESS
+ · Installing rescue kernel on servera ............................................................................. SUCCESS
+ · Regenerating initramfs on servera ............................................................................... SUCCESS
+ · Rebooting servera ............................................................................................... SUCCESS
+
+[student@workstation ~]$ lab finish boot-resetting 
+
+Finishing lab.
+
+ · Checking lab systems ............................................................................................ SUCCESS
+ · Resetting root password on servera .............................................................................. SUCCESS
+ · Restoring GRUB2 countdown on servera ............................................................................ SUCCESS
+ · Removing dracut packages on servera ............................................................................. SUCCESS
+ · Removing rescue kernel on servera ............................................................................... SUCCESS
+ · Regenerating initramfs on servera ............................................................................... SUCCESS
+ · Rebooting servera ............................................................................................... SUCCESS
+
+[student@workstation ~]$ ssh root@servera
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Register this system with Red Hat Insights: insights-client --register
+Create an account or view all your systems at https://red.ht/insights-dashboard
+Last login: Mon Jun  2 05:01:41 2025
+[root@servera ~]# vim /etc/ss
+ssh/  ssl/  sssd/ 
+[root@servera ~]# vim /etc/ss
+ssh/  ssl/  sssd/ 
+[root@servera ~]# vim /etc/ssh/ssh
+ssh_config                ssh_host_ecdsa_key.pub    ssh_host_rsa_key          sshd_config.d/
+ssh_config.d/             ssh_host_ed25519_key      ssh_host_rsa_key.pub      
+ssh_host_ecdsa_key        ssh_host_ed25519_key.pub  sshd_config               
+[root@servera ~]# vim /etc/ssh/ssh_config
+[root@servera ~]# exit
+logout
+Connection to servera closed.
+[student@workstation ~]$ ssh root@servera
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Register this system with Red Hat Insights: insights-client --register
+Create an account or view all your systems at https://red.ht/insights-dashboard
+Last login: Mon Jun  2 05:06:59 2025 from 172.25.250.9
+[root@servera ~]# eixt
+-bash: eixt: command not found
+[root@servera ~]# exit
+logout
+Connection to servera closed.
+[student@workstation ~]$ ssh root@servera
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Register this system with Red Hat Insights: insights-client --register
+Create an account or view all your systems at https://red.ht/insights-dashboard
+Last login: Mon Jun  2 05:11:57 2025 from 172.25.250.9
+[root@servera ~]# vim /etc/yum.repos.d/test.repo
+[root@servera ~]# dnf clean all
+13 files removed
+[root@servera ~]# dnf repo
+repo-graph           repodiff             repomanage           repoquery-nevra      
+repo-packages        repograph            repoquery            repository-packages  
+repo-pkgs            repoinfo             repoquery-n          repository-pkgs      
+repoclosure          repolist             repoquery-na         reposync             
+[root@servera ~]# dnf repo
+repo-graph           repodiff             repomanage           repoquery-nevra      
+repo-packages        repograph            repoquery            repository-packages  
+repo-pkgs            repoinfo             repoquery-n          repository-pkgs      
+repoclosure          repolist             repoquery-na         reposync             
+[root@servera ~]# dnf repo
+repo-graph           repodiff             repomanage           repoquery-nevra      
+repo-packages        repograph            repoquery            repository-packages  
+repo-pkgs            repoinfo             repoquery-n          repository-pkgs      
+repoclosure          repolist             repoquery-na         reposync             
+[root@servera ~]# dnf repo
+repo-graph           repodiff             repomanage           repoquery-nevra      
+repo-packages        repograph            repoquery            repository-packages  
+repo-pkgs            repoinfo             repoquery-n          repository-pkgs      
+repoclosure          repolist             repoquery-na         reposync             
+[root@servera ~]# dnf repolist all
+repo id                                               repo name                                                        status
+1                                                     BaseOs                                                           enabled
+2                                                     appstream                                                        enabled
+rhel-9.3-for-x86_64-appstream-rpms                    Red Hat Enterprise Linux 9.3 AppStream (dvd)                     enabled
+rhel-9.3-for-x86_64-baseos-rpms                       Red Hat Enterprise Linux 9.3 BaseOS (dvd)                        enabled
+[root@servera ~]# dnf install httpd -y
+Red Hat Enterprise Linux 9.3 BaseOS (dvd)                                                      40 MB/s | 2.0 MB     00:00    
+Red Hat Enterprise Linux 9.3 AppStream (dvd)                                                   81 MB/s | 6.5 MB     00:00    
+BaseOs                                                                                         29 MB/s | 2.0 MB     00:00    
+appstream                                                                                      87 MB/s | 6.5 MB     00:00    
+Dependencies resolved.
+==============================================================================================================================
+ Package                       Architecture      Version                  Repository                                     Size
+==============================================================================================================================
+Installing:
+ httpd                         x86_64            2.4.57-5.el9             rhel-9.3-for-x86_64-appstream-rpms             52 k
+Installing dependencies:
+ apr                           x86_64            1.7.0-11.el9             rhel-9.3-for-x86_64-appstream-rpms            127 k
+ apr-util                      x86_64            1.6.1-23.el9             rhel-9.3-for-x86_64-appstream-rpms             97 k
+ apr-util-bdb                  x86_64            1.6.1-23.el9             rhel-9.3-for-x86_64-appstream-rpms             14 k
+ httpd-core                    x86_64            2.4.57-5.el9             rhel-9.3-for-x86_64-appstream-rpms            1.5 M
+ httpd-filesystem              noarch            2.4.57-5.el9             rhel-9.3-for-x86_64-appstream-rpms             16 k
+ httpd-tools                   x86_64            2.4.57-5.el9             rhel-9.3-for-x86_64-appstream-rpms             87 k
+ redhat-logos-httpd            noarch            90.4-2.el9               rhel-9.3-for-x86_64-appstream-rpms             18 k
+Installing weak dependencies:
+ apr-util-openssl              x86_64            1.6.1-23.el9             rhel-9.3-for-x86_64-appstream-rpms             17 k
+ mod_http2                     x86_64            1.15.19-5.el9            rhel-9.3-for-x86_64-appstream-rpms            152 k
+ mod_lua                       x86_64            2.4.57-5.el9             rhel-9.3-for-x86_64-appstream-rpms             62 k
+
+Transaction Summary
+==============================================================================================================================
+Install  11 Packages
+
+Total download size: 2.1 M
+Installed size: 6.0 M
+Downloading Packages:
+(1/11): apr-util-bdb-1.6.1-23.el9.x86_64.rpm                                                  627 kB/s |  14 kB     00:00    
+(2/11): apr-1.7.0-11.el9.x86_64.rpm                                                           4.5 MB/s | 127 kB     00:00    
+(3/11): apr-util-openssl-1.6.1-23.el9.x86_64.rpm                                              1.8 MB/s |  17 kB     00:00    
+(4/11): apr-util-1.6.1-23.el9.x86_64.rpm                                                      2.5 MB/s |  97 kB     00:00    
+(5/11): httpd-filesystem-2.4.57-5.el9.noarch.rpm                                              255 kB/s |  16 kB     00:00    
+(6/11): httpd-2.4.57-5.el9.x86_64.rpm                                                         664 kB/s |  52 kB     00:00    
+(7/11): httpd-tools-2.4.57-5.el9.x86_64.rpm                                                   6.0 MB/s |  87 kB     00:00    
+(8/11): httpd-core-2.4.57-5.el9.x86_64.rpm                                                     14 MB/s | 1.5 MB     00:00    
+(9/11): mod_lua-2.4.57-5.el9.x86_64.rpm                                                       551 kB/s |  62 kB     00:00    
+(10/11): mod_http2-1.15.19-5.el9.x86_64.rpm                                                   1.1 MB/s | 152 kB     00:00    
+(11/11): redhat-logos-httpd-90.4-2.el9.noarch.rpm                                             110 kB/s |  18 kB     00:00    
+------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                         6.8 MB/s | 2.1 MB     00:00     
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                                                                      1/1 
+  Installing       : apr-1.7.0-11.el9.x86_64                                                                             1/11 
+  Installing       : apr-util-bdb-1.6.1-23.el9.x86_64                                                                    2/11 
+  Installing       : apr-util-openssl-1.6.1-23.el9.x86_64                                                                3/11 
+  Installing       : apr-util-1.6.1-23.el9.x86_64                                                                        4/11 
+  Installing       : httpd-tools-2.4.57-5.el9.x86_64                                                                     5/11 
+  Installing       : redhat-logos-httpd-90.4-2.el9.noarch                                                                6/11 
+  Running scriptlet: httpd-filesystem-2.4.57-5.el9.noarch                                                                7/11 
+  Installing       : httpd-filesystem-2.4.57-5.el9.noarch                                                                7/11 
+  Installing       : httpd-core-2.4.57-5.el9.x86_64                                                                      8/11 
+  Installing       : mod_lua-2.4.57-5.el9.x86_64                                                                         9/11 
+  Installing       : mod_http2-1.15.19-5.el9.x86_64                                                                     10/11 
+  Installing       : httpd-2.4.57-5.el9.x86_64                                                                          11/11 
+  Running scriptlet: httpd-2.4.57-5.el9.x86_64                                                                          11/11 
+  Verifying        : apr-1.7.0-11.el9.x86_64                                                                             1/11 
+  Verifying        : apr-util-1.6.1-23.el9.x86_64                                                                        2/11 
+  Verifying        : apr-util-bdb-1.6.1-23.el9.x86_64                                                                    3/11 
+  Verifying        : apr-util-openssl-1.6.1-23.el9.x86_64                                                                4/11 
+  Verifying        : httpd-2.4.57-5.el9.x86_64                                                                           5/11 
+  Verifying        : httpd-core-2.4.57-5.el9.x86_64                                                                      6/11 
+  Verifying        : httpd-filesystem-2.4.57-5.el9.noarch                                                                7/11 
+  Verifying        : httpd-tools-2.4.57-5.el9.x86_64                                                                     8/11 
+  Verifying        : mod_http2-1.15.19-5.el9.x86_64                                                                      9/11 
+  Verifying        : mod_lua-2.4.57-5.el9.x86_64                                                                        10/11 
+  Verifying        : redhat-logos-httpd-90.4-2.el9.noarch                                                               11/11 
+
+Installed:
+  apr-1.7.0-11.el9.x86_64                    apr-util-1.6.1-23.el9.x86_64               apr-util-bdb-1.6.1-23.el9.x86_64      
+  apr-util-openssl-1.6.1-23.el9.x86_64       httpd-2.4.57-5.el9.x86_64                  httpd-core-2.4.57-5.el9.x86_64        
+  httpd-filesystem-2.4.57-5.el9.noarch       httpd-tools-2.4.57-5.el9.x86_64            mod_http2-1.15.19-5.el9.x86_64        
+  mod_lua-2.4.57-5.el9.x86_64                redhat-logos-httpd-90.4-2.el9.noarch      
+
+Complete!
+[root@servera ~]# systemctl start httpd
+[root@servera ~]# systemctl enable httpd
+Created symlink /etc/systemd/system/multi-user.target.wants/httpd.service → /usr/lib/systemd/system/httpd.service.
+[root@servera ~]# vim /etc/httpd/conf/httpd.conf 
+[root@servera ~]# systemctl restart httpd
+Job for httpd.service failed because the control process exited with error code.
+See "systemctl status httpd.service" and "journalctl -xeu httpd.service" for details.
+[root@servera ~]# se
+sealert                                  selinuxenabled                           setfattr
+secon                                    selinuxexeccon                           setfiles
+sed                                      semanage                                 setfont
+sedismod                                 semodule                                 setkeycodes
+sedispatch                               semodule_expand                          setleds
+sedispol                                 semodule_link                            setmetamode
+sefcontext_compile                       semodule_package                         setpci
+selabel_digest                           semodule_unpackage                       setpriv
+selabel_get_digests_all_partial_matches  seq                                      setquota
+selabel_lookup                           service                                  setroubleshootd
+selabel_lookup_best_match                sestatus                                 setsebool
+selabel_partial_match                    set                                      setsid
+select                                   setarch                                  setterm
+selinux_check_access                     setcap                                   setup-nsssysinit
+selinuxconlist                           setenforce                               setup-nsssysinit.sh
+selinuxdefcon                            setfacl                                  setvtrgb
+[root@servera ~]# se
+sealert                                  selinuxenabled                           setfattr
+secon                                    selinuxexeccon                           setfiles
+sed                                      semanage                                 setfont
+sedismod                                 semodule                                 setkeycodes
+sedispatch                               semodule_expand                          setleds
+sedispol                                 semodule_link                            setmetamode
+sefcontext_compile                       semodule_package                         setpci
+selabel_digest                           semodule_unpackage                       setpriv
+selabel_get_digests_all_partial_matches  seq                                      setquota
+selabel_lookup                           service                                  setroubleshootd
+selabel_lookup_best_match                sestatus                                 setsebool
+selabel_partial_match                    set                                      setsid
+select                                   setarch                                  setterm
+selinux_check_access                     setcap                                   setup-nsssysinit
+selinuxconlist                           setenforce                               setup-nsssysinit.sh
+selinuxdefcon                            setfacl                                  setvtrgb
+[root@servera ~]# sem
+semanage            semodule            semodule_expand     semodule_link       semodule_package    semodule_unpackage
+[root@servera ~]# sem
+semanage            semodule            semodule_expand     semodule_link       semodule_package    semodule_unpackage
+[root@servera ~]# semanage port -a -t http_port_t -p tcp 82
+[root@servera ~]# systemctl restart httpd
+[root@servera ~]# curl localhost:82
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<title>Test Page for the HTTP Server on Red Hat Enterprise Linux</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<style type="text/css">
+			/*<![CDATA[*/
+			body {
+				background-color: #fff;
+				color: #000;
+				font-size: 1.1em;
+				font-family: "Red Hat Text", Helvetica, Tahoma, sans-serif;
+				margin: 0;
+				padding: 0;
+                border-bottom: 30px solid black;
+				min-height: 100vh;
+				box-sizing: border-box;
+			}
+			:link {
+				color: #c00;
+			}
+			:visited {
+				color: #c00;
+			}
+			a:hover {
+				color: #f50;
+			}
+			h1 {
+				text-align: left;
+				margin: 0;
+				margin-bottom: .6em;
+				padding: 1em 2em 1.5em 2em;
+				background-color: black;
+				color: #fff;
+				font-weight: normal;
+				font-size: 2.5em;
+				border-bottom: 2px solid #000;
+			}
+            h1 img {
+                border: none;
+                margin-bottom: .4em;
+            }
+			h1 strong {
+				font-weight: bold;
+			}
+			h2 {
+				font-size: 1.1em;
+				font-weight: bold;
+			}
+			hr {
+				display: none;
+			}
+			.content {
+				padding: 1em 5em;
+			}
+			.content-columns {
+				/* Setting relative positioning allows for 
+				absolute positioning for sub-classes */
+				position: relative;
+				padding-top: 1em;
+                display: flex;
+				flex-wrap: wrap;
+			}
+			.content-column-left {
+				/* Value for IE/Win; will be overwritten for other browsers */
+				width: 47%;
+				padding: 15px 30px;
+				margin-right: 30px;
+				padding-bottom: 2em;	
+				margin-bottom: 1em;
+				flex: 1;
+			}
+			.content-column-left hr {
+				display: none;
+			}
+			.content-column-right {
+				/* Values for IE/Win; will be overwritten for other browsers */
+				width: 47%;
+				padding: 15px 30px;
+				padding-bottom: 2em;
+                margin-right: 30px;
+				margin-bottom: 1em;
+				flex: 1;
+			}
+			.content-columns>.content-column-left, .content-columns>.content-column-right {
+				/* Non-IE/Win */
+                border: 1px solid #d2d2d2;
+				border-radius: 3px;
+				box-sizing: border-box;
+			}
+			.logos {
+				text-align: left;
+				margin-top: 2em;
+			}
+            .logos a img {
+                padding-right: 1.5em;
+                margin-right: 1.5em;
+                border-right: 1px solid #d2d2d2;
+            }
+			img {
+				border: 2px solid #fff;
+				padding: 2px;
+				margin: 2px;
+			}
+			a:hover img {
+				border: 2px solid #f50;
+			}
+			.footer {
+			    font-size: xx-small;
+                padding: 0 10em;
+			    padding-bottom: 5em;
+			}
+
+            /* Responsive layout */
+            @media (max-width: 800px) {
+                .content-column-right, .content-column-left {
+                flex: 100%;
+                }
+            }
+			/*]]>*/
+		</style>
+	</head>
+
+	<body>
+		<h1>
+            <img src="system_noindex_logo.png" alt="Red Hat Logo" /><br />
+            Red Hat Enterprise Linux <strong>Test Page</strong>
+        </h1>
+
+		<div class="content">
+			<div class="content-middle">
+				<p>This page is used to test the proper operation of the HTTP server after it has been installed. If you can read this page, it means that the HTTP server installed at this site is working properly.</p>
+			</div>
+			<hr />
+
+			<div class="content-columns">
+				<div class="content-column-left">
+					<h2>If you are a member of the general public:</h2>
+
+					<p>The fact that you are seeing this page indicates that the website you just visited is either experiencing problems, or is undergoing routine maintenance.</p>
+
+					<p>If you would like to let the administrators of this website know that you've seen this page instead of the page you expected, you should send them e-mail. In general, mail sent to the name "webmaster" and directed to the website's domain should reach the appropriate person.</p>
+
+					<p>For example, if you experienced problems while visiting www.example.com, you should send e-mail to "webmaster@example.com".</p>
+
+					<p>For information on Red Hat Enterprise Linux, please visit the <a href="http://www.redhat.com/">Red Hat, Inc. website</a>. The documentation for Red Hat Enterprise Linux is <a href="http://www.redhat.com/docs/manuals/enterprise/">available on the Red Hat, Inc. website</a>.</p>
+					<hr />
+				</div>
+
+				<div class="content-column-right">
+					<h2>If you are the website administrator:</h2>
+
+					<p>You may now add content to the webroot directory. Note
+					that until you do so, people visiting your website will see
+					this page, and not your content.</p>
+
+					<p>For systems using the Apache HTTP Server:
+					You may now add content to the directory <tt>/var/www/html/</tt>. Note that until you do so, people visiting your website will see this page, and not your content. To prevent this page from ever being used, follow the instructions in the file <tt>/etc/httpd/conf.d/welcome.conf</tt>.</p>
+
+					<p>For systems using NGINX:
+					You should now put your content in a location of your
+					choice and edit the <code>root</code> configuration directive
+					in the <strong>nginx</strong> configuration file
+					<code>/etc/nginx/nginx.conf</code>.</p>
+
+					<div class="logos">
+						<a href="https://access.redhat.com/products/red-hat-enterprise-linux"><img src= "/icons/poweredby.png" alt="[ Powered by Red Hat Enterprise Linux ]" /></a>
+						<img src= "poweredby.png" alt="[ Powered by Red Hat Enterprise Linux ]" />
+					</div>
+				</div>
+			</div>
+		</div>
+	<div class="footer">
+		<a href="https://apache.org">Apache&trade;</a> is a registered trademark of <a href="https://apache.org">the Apache Software Foundation</a> in the United States and/or other countries.
+        <br />
+		<a href="https://nginx.com">NGINX&trade;</a> is a registered trademark of <a href="https://www.f5.com">F5 Networks, Inc.</a>.
+	</div>
+	</body>
+</html>[root@servera ~]# 
 
