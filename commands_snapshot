@@ -1621,4 +1621,29 @@ production7:$6$i980m.vTGmhLv3Ad$d/TvpTUn9bJ5cZ5RNQwC1z5PK/d72vWYOIYYLvRT/1RsTsR4
 alies:!!:20241:0:99999:7:::
 contsvc:$6$jqK3QJkPOy1N66K4$LFPHb0OTVtIk4JydBhoozH/6aO6P3MGW9e9aNJrtYD3cnWqqq7YhEd8iCaayDqyB1WfTKCz6491cKdNhkpZu80:20241:0:99999:7:::
 gowri:!!:20241:0:20:7:::
-[root@servera ~]# 
+[root@servera ~]# exit
+logout
+Connection to servera closed.
+[student@workstation ~]$ ssh root@serverb
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Register this system with Red Hat Insights: insights-client --register
+Create an account or view all your systems at https://red.ht/insights-dashboard
+Last login: Mon Jun  2 06:43:43 2025 from 172.25.250.9
+[root@serverb ~]# dnf install tuned -y
+Last metadata expiration check: 2:35:15 ago on Mon Jun  2 04:59:24 2025.
+Package tuned-2.21.0-1.el9_3.noarch is already installed.
+Dependencies resolved.
+Nothing to do.
+Complete!
+[root@serverb ~]# systemctl enable --now tuned
+[root@serverb ~]# tuned
+tuned      tuned-adm  
+[root@serverb ~]# tuned
+tuned      tuned-adm  
+[root@serverb ~]# tuned-adm recommend 
+virtual-guest
+[root@serverb ~]# tuned-adm profile virtual-guest 
+[root@serverb ~]# tuned-adm active 
+Current active profile: virtual-guest
+[root@serverb ~]# 
