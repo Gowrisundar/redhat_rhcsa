@@ -395,5 +395,86 @@ semanage            semodule            semodule_expand     semodule_link       
 		<a href="https://nginx.com">NGINX&trade;</a> is a registered trademark of <a href="https://www.f5.com">F5 Networks, Inc.</a>.
 	</div>
 	</body>
-</html>[root@servera ~]# 
-
+</html>[root@servera ~]# group add sysadmin
+-bash: group: command not found
+[root@servera ~]# group
+groupadd   groupdel   groupmems  groupmod   groups     
+[root@servera ~]# group
+groupadd   groupdel   groupmems  groupmod   groups     
+[root@servera ~]# groupadd sysadmin
+[root@servera ~]# user
+useradd     userdel     userhelper  usermod     users       
+[root@servera ~]# useradd -G sysadmin harry
+[root@servera ~]# useradd -G sysadmin natasha
+[root@servera ~]# useradd -s /sbin/nologin sarah
+[root@servera ~]# cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/spool/mail:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+games:x:12:100:games:/usr/games:/sbin/nologin
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin
+nobody:x:65534:65534:Kernel Overflow User:/:/sbin/nologin
+systemd-coredump:x:999:997:systemd Core Dumper:/:/sbin/nologin
+dbus:x:81:81:System message bus:/:/sbin/nologin
+polkitd:x:998:996:User for polkitd:/:/sbin/nologin
+tss:x:59:59:Account used for TPM access:/:/sbin/nologin
+rpc:x:32:32:Rpcbind Daemon:/var/lib/rpcbind:/sbin/nologin
+setroubleshoot:x:997:994:SELinux troubleshoot server:/var/lib/setroubleshoot:/usr/sbin/nologin
+sssd:x:996:993:User for sssd:/:/sbin/nologin
+cockpit-ws:x:995:992:User for cockpit web service:/nonexisting:/sbin/nologin
+cockpit-wsinstance:x:994:991:User for cockpit-ws instances:/nonexisting:/sbin/nologin
+rpcuser:x:29:29:RPC Service User:/var/lib/nfs:/sbin/nologin
+sshd:x:74:74:Privilege-separated SSH:/usr/share/empty.sshd:/sbin/nologin
+chrony:x:993:990:chrony system user:/var/lib/chrony:/sbin/nologin
+tcpdump:x:72:72::/:/sbin/nologin
+systemd-oom:x:988:988:systemd Userspace OOM Killer:/:/usr/sbin/nologin
+student:x:1000:1000:Student User:/home/student:/bin/bash
+devops:x:1001:1001:Devops User:/home/devops:/bin/bash
+libstoragemgmt:x:986:986:daemon account for libstoragemgmt:/:/usr/sbin/nologin
+cloud-user:x:1002:1002:Cloud User:/home/cloud-user:/bin/bash
+apache:x:48:48:Apache:/usr/share/httpd:/sbin/nologin
+harry:x:1003:1004::/home/harry:/bin/bash
+natasha:x:1004:1005::/home/natasha:/bin/bash
+sarah:x:1005:1006::/home/sarah:/sbin/nologin
+[root@servera ~]# tail /etc/group
+devops:x:1001:
+printadmin:x:987:
+libstoragemgmt:x:986:
+slocate:x:21:
+cloud-user:x:1002:
+apache:x:48:
+sysadmin:x:1003:harry,natasha
+harry:x:1004:
+natasha:x:1005:
+sarah:x:1006:
+[root@servera ~]# passwd harry --stdin
+Changing password for user harry.
+password
+passwd: all authentication tokens updated successfully.
+[root@servera ~]# passwd natasha --stdin
+Changing password for user natasha.
+password
+passwd: all authentication tokens updated successfully.
+[root@servera ~]# passwd sarah --stdin
+Changing password for user sarah.
+password
+passwd: all authentication tokens updated successfully.
+[root@servera ~]# tail /etc/shadow
+tcpdump:!!:19662::::::
+systemd-oom:!*:19670::::::
+student:$6$8oIjLCsc$/n1iQXYh1E6.uOEuJKgioqAtmqm2TQmkJGF2RwyteIr1tIfrPdiRYgWe6Sjen5/eMij2uHM/a1tue/QRlo3X80:19670:0:99999:7:::
+devops:$6$/5n7DDTAMNXxEQdO$u8VUuEwBjQX05CZ7M3wcEqtwoUXpj0UdBmQ87CeGmcr.pYsvyH7Vz1mtRGlcmNRl/E44g2BlVGVmLiwwQC1KC1:19670:0:99999:7:::
+libstoragemgmt:!*:19670::::::
+cloud-user:!!:19830:0:99999:7:::
+apache:!!:20241::::::
+harry:$6$2imtsspxrek3mIOt$k4e3CXdElSZIwgaO8/F07c3AFAGOEt6k8y568PeWRke4NvsmGOTJll41EjlpwDZJdGlEZpU2GwPOFVuX7L75M1:20241:0:99999:7:::
+natasha:$6$AfkJkHlLeGl/I1ly$WVn9rkfytN9zmMG/f3oPMEqV.47CNLuqZOUIQ2nvxYn.0teNHxrpCoD2NYcHW1nN/S6Pd/nFAOUv6BQbtmifS/:20241:0:99999:7:::
+sarah:$6$11YGrQK4oObwueKn$ZLMSw2uanMPgmTjI8dbk.o0JsMaDXzZPK2QCXcCZfI.vPTDeyyzqMQkrwV.KzRKFcuXx5aZMlcUOQQA03rq4W0:20241:0:99999:7:::
+[root@servera ~]# 
