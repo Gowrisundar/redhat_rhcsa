@@ -1144,4 +1144,246 @@ container-ascii2pdf.service  default.target.wants/
 ls: cannot access '/opt/files/': No such file or directory
 [student@servera user]$ podman exec ascii2pdf ls /opt/incoming/
 apple
-[student@servera user]$ 
+[student@servera user]$ exit
+logout
+Connection to servera closed.
+[student@workstation ~]$ ssh root@serverb
+Warning: Permanently added 'serverb' (ED25519) to the list of known hosts.
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Register this system with Red Hat Insights: insights-client --register
+Create an account or view all your systems at https://red.ht/insights-dashboard
+Last failed login: Mon Jun  2 05:57:54 UTC 2025 from 172.25.250.10 on ssh:notty
+There were 2 failed login attempts since the last successful login.
+Last login: Wed Aug 28 07:30:00 2024
+[root@serverb ~]# nmcli device show
+GENERAL.DEVICE:                         eth0
+GENERAL.TYPE:                           ethernet
+GENERAL.HWADDR:                         52:54:00:00:FA:0B
+GENERAL.MTU:                            1500
+GENERAL.STATE:                          100 (connected)
+GENERAL.CONNECTION:                     System eth0
+GENERAL.CON-PATH:                       /org/freedesktop/NetworkManager/ActiveConnection/2
+WIRED-PROPERTIES.CARRIER:               on
+IP4.ADDRESS[1]:                         172.25.250.11/24
+IP4.GATEWAY:                            172.25.250.254
+IP4.ROUTE[1]:                           dst = 172.25.250.0/24, nh = 0.0.0.0, mt = 100
+IP4.ROUTE[2]:                           dst = 0.0.0.0/0, nh = 172.25.250.254, mt = 100
+IP4.DNS[1]:                             172.25.250.220
+IP4.SEARCHES[1]:                        lab.example.com
+IP4.SEARCHES[2]:                        example.com
+IP6.ADDRESS[1]:                         fe80::5054:ff:fe00:fa0b/64
+IP6.GATEWAY:                            --
+IP6.ROUTE[1]:                           dst = fe80::/64, nh = ::, mt = 256
+
+GENERAL.DEVICE:                         lo
+GENERAL.TYPE:                           loopback
+GENERAL.HWADDR:                         00:00:00:00:00:00
+GENERAL.MTU:                            65536
+GENERAL.STATE:                          100 (connected (externally))
+GENERAL.CONNECTION:                     lo
+GENERAL.CON-PATH:                       /org/freedesktop/NetworkManager/ActiveConnection/1
+IP4.ADDRESS[1]:                         127.0.0.1/8
+IP4.GATEWAY:                            --
+IP6.ADDRESS[1]:                         ::1/128
+IP6.GATEWAY:                            --
+IP6.ROUTE[1]:                           dst = ::1/128, nh = ::, mt = 256
+[root@serverb ~]# nmcli connection show
+NAME         UUID                                  TYPE      DEVICE 
+System eth0  5fb06bd0-0bb0-7ffb-45f1-d6edd65f3e03  ethernet  eth0   
+lo           e3bb7643-266e-4fd8-ad14-c36862de0483  loopback  lo     
+System eth1  9c92fad9-6ecb-3e6c-eb4d-8a47c6f50c04  ethernet  --     
+[root@serverb ~]# getenforce
+Enforcing
+[root@serverb ~]# vim /etc/ssh/sshd_config
+[root@serverb ~]# lvs
+[root@serverb ~]# fdisk /dev/vdb
+
+Welcome to fdisk (util-linux 2.37.4).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+Device does not contain a recognized partition table.
+Created a new DOS disklabel with disk identifier 0x44206c41.
+
+Command (m for help): n
+Partition type
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended (container for logical partitions)
+Select (default p): 
+
+Using default response p.
+Partition number (1-4, default 1): 
+First sector (2048-10485759, default 2048): 
+Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-10485759, default 10485759): +512M
+
+Created a new partition 1 of type 'Linux' and of size 512 MiB.
+
+Command (m for help): t
+Selected partition 1
+Hex code or alias (type L to list all): swap
+Changed type of partition 'Linux' to 'Linux swap / Solaris'.
+
+Command (m for help): w
+The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
+[root@serverb ~]# partprobe
+Warning: Unable to open /dev/sr0 read-write (Read-only file system).  /dev/sr0 has been opened read-only.
+[root@serverb ~]# mkswap /dev/vdb1
+Setting up swapspace version 1, size = 512 MiB (536866816 bytes)
+no label, UUID=b35e40fd-b84f-4b4d-a438-36886ad83005
+[root@serverb ~]# vim /etc/fstab
+[root@serverb ~]# swapon /dev/vdb1
+[root@serverb ~]# free -m
+               total        used        free      shared  buff/cache   available
+Mem:            1763         362        1348           9         208        1401
+Swap:            511           0         511
+[root@serverb ~]# fdisk /dev/vdb
+
+Welcome to fdisk (util-linux 2.37.4).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+This disk is currently in use - repartitioning is probably a bad idea.
+It's recommended to umount all file systems, and swapoff all swap
+partitions on this disk.
+
+
+Command (m for help): 
+
+
+Command (m for help): n
+Partition type
+   p   primary (1 primary, 0 extended, 3 free)
+   e   extended (container for logical partitions)
+Select (default p): 
+
+Using default response p.
+Partition number (2-4, default 2): 
+First sector (1050624-10485759, default 1050624): 
+Last sector, +/-sectors or +/-size{K,M,G,T,P} (1050624-10485759, default 10485759): +148M
+
+Created a new partition 2 of type 'Linux' and of size 148 MiB.
+
+Command (m for help): t
+Partition number (1,2, default 2): 
+Hex code or alias (type L to list all): swap
+
+Changed type of partition 'Linux' to 'Linux swap / Solaris'.
+
+Command (m for help): p
+Disk /dev/vdb: 5 GiB, 5368709120 bytes, 10485760 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x44206c41
+
+Device     Boot   Start     End Sectors  Size Id Type
+/dev/vdb1          2048 1050623 1048576  512M 82 Linux swap / Solaris
+/dev/vdb2       1050624 1353727  303104  148M 82 Linux swap / Solaris
+
+Command (m for help): w
+The partition table has been altered.
+Syncing disks.
+
+[root@serverb ~]# partprobe
+Warning: Unable to open /dev/sr0 read-write (Read-only file system).  /dev/sr0 has been opened read-only.
+[root@serverb ~]# mkswap /dev/vdb2
+Setting up swapspace version 1, size = 148 MiB (155185152 bytes)
+no label, UUID=7483a56a-2228-48d2-835e-386d0ba4ff61
+[root@serverb ~]# vim /etc/fstab
+[root@serverb ~]# swapon /dev/vdb2
+[root@serverb ~]# free -m
+               total        used        free      shared  buff/cache   available
+Mem:            1763         364        1343           9         211        1399
+Swap:            659           0         659
+[root@serverb ~]# swapoff /dev/vdb2
+[root@serverb ~]# fdisk /dev/vdb
+
+Welcome to fdisk (util-linux 2.37.4).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+This disk is currently in use - repartitioning is probably a bad idea.
+It's recommended to umount all file systems, and swapoff all swap
+partitions on this disk.
+
+
+Command (m for help): d
+Partition number (1,2, default 2): 
+
+Partition 2 has been deleted.
+
+Command (m for help): w
+The partition table has been altered.
+Syncing disks.
+
+[root@serverb ~]# partprobe
+Warning: Unable to open /dev/sr0 read-write (Read-only file system).  /dev/sr0 has been opened read-only.
+[root@serverb ~]# fdisk /dev/vdb
+
+Welcome to fdisk (util-linux 2.37.4).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+This disk is currently in use - repartitioning is probably a bad idea.
+It's recommended to umount all file systems, and swapoff all swap
+partitions on this disk.
+
+
+Command (m for help): n
+Partition type
+   p   primary (1 primary, 0 extended, 3 free)
+   e   extended (container for logical partitions)
+Select (default p): 
+
+Using default response p.
+Partition number (2-4, default 2): 
+First sector (1050624-10485759, default 1050624): 
+Last sector, +/-sectors or +/-size{K,M,G,T,P} (1050624-10485759, default 10485759): +249M
+
+Created a new partition 2 of type 'Linux' and of size 249 MiB.
+Partition #2 contains a swap signature.
+
+Do you want to remove the signature? [Y]es/[N]o: Y
+
+The signature will be removed by a write command.
+
+Command (m for help): t
+Partition number (1,2, default 2): 
+Hex code or alias (type L to list all): swap
+
+Changed type of partition 'Linux' to 'Linux swap / Solaris'.
+
+Command (m for help): p
+Disk /dev/vdb: 5 GiB, 5368709120 bytes, 10485760 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x44206c41
+
+Device     Boot   Start     End Sectors  Size Id Type
+/dev/vdb1          2048 1050623 1048576  512M 82 Linux swap / Solaris
+/dev/vdb2       1050624 1560575  509952  249M 82 Linux swap / Solaris
+
+Filesystem/RAID signature on partition 2 will be wiped.
+
+Command (m for help): w
+The partition table has been altered.
+Syncing disks.
+
+[root@serverb ~]# partprobe
+Warning: Unable to open /dev/sr0 read-write (Read-only file system).  /dev/sr0 has been opened read-only.
+[root@serverb ~]# mkswap /dev/vdb2
+Setting up swapspace version 1, size = 249 MiB (261091328 bytes)
+no label, UUID=4b2cade9-1710-4ff9-b20b-9544bb5383be
+[root@serverb ~]# swapon /dev/vdb2
+[root@serverb ~]# free -m
+               total        used        free      shared  buff/cache   available
+Mem:            1763         369        1337           9         211        1394
+Swap:            760           0         760
+[root@serverb ~]# 
