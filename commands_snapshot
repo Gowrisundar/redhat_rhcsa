@@ -1386,4 +1386,239 @@ no label, UUID=4b2cade9-1710-4ff9-b20b-9544bb5383be
                total        used        free      shared  buff/cache   available
 Mem:            1763         369        1337           9         211        1394
 Swap:            760           0         760
-[root@serverb ~]# 
+[root@serverb ~]# fdisk /dev/vdb
+
+Welcome to fdisk (util-linux 2.37.4).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+This disk is currently in use - repartitioning is probably a bad idea.
+It's recommended to umount all file systems, and swapoff all swap
+partitions on this disk.
+
+
+Command (m for help): n
+Partition type
+   p   primary (2 primary, 0 extended, 2 free)
+   e   extended (container for logical partitions)
+Select (default p): 
+
+Using default response p.
+Partition number (3,4, default 3): 
+First sector (1560576-10485759, default 1560576): 
+Last sector, +/-sectors or +/-size{K,M,G,T,P} (1560576-10485759, default 10485759): 
+
+Created a new partition 3 of type 'Linux' and of size 4.3 GiB.
+
+Command (m for help): t
+Partition number (1-3, default 3): 
+Hex code or alias (type L to list all): lvm
+
+Changed type of partition 'Linux' to 'Linux LVM'.
+
+Command (m for help): p
+Disk /dev/vdb: 5 GiB, 5368709120 bytes, 10485760 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x44206c41
+
+Device     Boot   Start      End Sectors  Size Id Type
+/dev/vdb1          2048  1050623 1048576  512M 82 Linux swap / Solaris
+/dev/vdb2       1050624  1560575  509952  249M 82 Linux swap / Solaris
+/dev/vdb3       1560576 10485759 8925184  4.3G 8e Linux LVM
+
+Command (m for help): w
+The partition table has been altered.
+Syncing disks.
+
+[root@serverb ~]# partprobe
+Warning: Unable to open /dev/sr0 read-write (Read-only file system).  /dev/sr0 has been opened read-only.
+[root@serverb ~]# vgcreate Department -s 8 /dev/vdb3
+  Physical volume "/dev/vdb3" successfully created.
+  Creating devices file /etc/lvm/devices/system.devices
+  Volume group "Department" successfully created
+[root@serverb ~]# lvcreate -n Engineering -l 100 /dev/Department
+  Logical volume "Engineering" created.
+[root@serverb ~]# lvs
+  LV          VG         Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  Engineering Department -wi-a----- 800.00m                                                    
+[root@serverb ~]# mkfs.xfs /dev/Department/Engineering
+meta-data=/dev/Department/Engineering isize=512    agcount=4, agsize=51200 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=1, sparse=1, rmapbt=0
+         =                       reflink=1    bigtime=1 inobtcount=1 nrext64=0
+data     =                       bsize=4096   blocks=204800, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0, ftype=1
+log      =internal log           bsize=4096   blocks=16384, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+[root@serverb ~]# mkdir /Department
+[root@serverb ~]# vim /etc/fstab
+[root@serverb ~]# mount /Department
+mount: (hint) your fstab has been modified, but systemd still uses
+       the old version; use 'systemctl daemon-reload' to reload.
+[root@serverb ~]# df -h
+Filesystem                          Size  Used Avail Use% Mounted on
+devtmpfs                            4.0M     0  4.0M   0% /dev
+tmpfs                               882M     0  882M   0% /dev/shm
+tmpfs                               353M  9.5M  344M   3% /run
+/dev/vda4                           9.2G  1.9G  7.4G  20% /
+/dev/vda3                           536M  197M  340M  37% /boot
+/dev/vda2                           200M  7.0M  193M   4% /boot/efi
+tmpfs                               177M     0  177M   0% /run/user/0
+/dev/mapper/Department-Engineering  736M   38M  699M   6% /Department
+[root@serverb ~]# lvresize -r -l 150 /dev/Department/Engineering
+  Size of logical volume Department/Engineering changed from 800.00 MiB (100 extents) to 1.17 GiB (150 extents).
+  File system xfs found on Department/Engineering mounted at /Department.
+  Extending file system xfs to 1.17 GiB (1258291200 bytes) on Department/Engineering...
+xfs_growfs /dev/Department/Engineering
+meta-data=/dev/mapper/Department-Engineering isize=512    agcount=4, agsize=51200 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=1, sparse=1, rmapbt=0
+         =                       reflink=1    bigtime=1 inobtcount=1 nrext64=0
+data     =                       bsize=4096   blocks=204800, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0, ftype=1
+log      =internal log           bsize=4096   blocks=16384, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+data blocks changed from 204800 to 307200
+xfs_growfs done
+  Extended file system xfs on Department/Engineering.
+  Logical volume Department/Engineering successfully resized.
+[root@serverb ~]# df -h
+Filesystem                          Size  Used Avail Use% Mounted on
+devtmpfs                            4.0M     0  4.0M   0% /dev
+tmpfs                               882M     0  882M   0% /dev/shm
+tmpfs                               353M  9.5M  344M   3% /run
+/dev/vda4                           9.2G  1.9G  7.4G  20% /
+/dev/vda3                           536M  197M  340M  37% /boot
+/dev/vda2                           200M  7.0M  193M   4% /boot/efi
+tmpfs                               177M     0  177M   0% /run/user/0
+/dev/mapper/Department-Engineering  1.2G   41M  1.1G   4% /Department
+[root@serverb ~]# lvs
+  LV          VG         Attr       LSize Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  Engineering Department -wi-ao---- 1.17g                                                    
+[root@serverb ~]# lvresize -r -l 106 /dev/Department/Engineering
+  File system xfs found on Department/Engineering mounted at /Department.
+  File system size (800.00 MiB) is smaller than the requested size (848.00 MiB).
+  File system reduce is not needed, skipping.
+  Size of logical volume Department/Engineering changed from 1.17 GiB (150 extents) to 848.00 MiB (106 extents).
+  Logical volume Department/Engineering successfully resized.
+[root@serverb ~]# df -h
+Filesystem                          Size  Used Avail Use% Mounted on
+devtmpfs                            4.0M     0  4.0M   0% /dev
+tmpfs                               882M     0  882M   0% /dev/shm
+tmpfs                               353M  9.5M  344M   3% /run
+/dev/vda4                           9.2G  1.9G  7.4G  20% /
+/dev/vda3                           536M  197M  340M  37% /boot
+/dev/vda2                           200M  7.0M  193M   4% /boot/efi
+tmpfs                               177M     0  177M   0% /run/user/0
+/dev/mapper/Department-Engineering  1.2G   41M  1.1G   4% /Department
+[root@serverb ~]# lvs
+  LV          VG         Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  Engineering Department -wi-ao---- 848.00m                                                    
+[root@serverb ~]# lvresize -r -l 256 /dev/Department/Engineering
+  Size of logical volume Department/Engineering changed from 848.00 MiB (106 extents) to 2.00 GiB (256 extents).
+  File system xfs found on Department/Engineering mounted at /Department.
+  Extending file system xfs to 2.00 GiB (2147483648 bytes) on Department/Engineering...
+xfs_growfs /dev/Department/Engineering
+meta-data=/dev/mapper/Department-Engineering isize=512    agcount=6, agsize=51200 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=1, sparse=1, rmapbt=0
+         =                       reflink=1    bigtime=1 inobtcount=1 nrext64=0
+data     =                       bsize=4096   blocks=307200, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0, ftype=1
+log      =internal log           bsize=4096   blocks=16384, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+data blocks changed from 307200 to 524288
+xfs_growfs done
+  Extended file system xfs on Department/Engineering.
+  Logical volume Department/Engineering successfully resized.
+[root@serverb ~]# df -h
+Filesystem                          Size  Used Avail Use% Mounted on
+devtmpfs                            4.0M     0  4.0M   0% /dev
+tmpfs                               882M     0  882M   0% /dev/shm
+tmpfs                               353M  9.5M  344M   3% /run
+/dev/vda4                           9.2G  1.9G  7.4G  20% /
+/dev/vda3                           536M  197M  340M  37% /boot
+/dev/vda2                           200M  7.0M  193M   4% /boot/efi
+tmpfs                               177M     0  177M   0% /run/user/0
+/dev/mapper/Department-Engineering  2.0G   47M  1.9G   3% /Department
+[root@serverb ~]# exit
+logout
+Connection to serverb closed.
+[student@workstation ~]$ ssh root@servera
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Register this system with Red Hat Insights: insights-client --register
+Create an account or view all your systems at https://red.ht/insights-dashboard
+Last login: Mon Jun  2 06:32:35 2025
+[root@servera ~]# vim myscript.sh
+[root@servera ~]# chmod a+x myscript.sh
+[root@servera ~]# ./myscript.sh
+[root@servera ~]# cat /root/myfile.txt
+/usr/share/X11/locale/C/Compose
+/usr/share/X11/locale/am_ET.UTF-8/XI18N_OBJS
+/usr/share/X11/locale/am_ET.UTF-8/XLC_LOCALE
+/usr/share/X11/locale/cs_CZ.UTF-8/XI18N_OBJS
+/usr/share/X11/locale/cs_CZ.UTF-8/XLC_LOCALE
+/usr/share/X11/locale/el_GR.UTF-8/XI18N_OBJS
+/usr/share/X11/locale/el_GR.UTF-8/XLC_LOCALE
+/usr/share/X11/locale/fi_FI.UTF-8/XI18N_OBJS
+/usr/share/X11/locale/fi_FI.UTF-8/XLC_LOCALE
+/usr/share/X11/locale/iscii-dev/Compose
+/usr/share/X11/locale/isiri-3342/Compose
+/usr/share/X11/locale/iso8859-11/Compose
+/usr/share/X11/locale/km_KH.UTF-8/XLC_LOCALE
+/usr/share/X11/locale/microsoft-cp1251/Compose
+/usr/share/X11/locale/microsoft-cp1255/Compose
+/usr/share/X11/locale/microsoft-cp1256/Compose
+/usr/share/X11/locale/nokhchi-1/Compose
+/usr/share/X11/locale/sr_RS.UTF-8/XLC_LOCALE
+/usr/share/X11/locale/tatar-cyr/Compose
+/usr/share/X11/locale/th_TH/Compose
+/usr/share/X11/locale/tscii-0/Compose
+/usr/share/pki/ca-trust-legacy/ca-bundle.legacy.default.crt
+/usr/share/pki/ca-trust-legacy/ca-bundle.legacy.disable.crt
+/usr/share/microcode_ctl/ucode_with_caveats/intel-06-8e-9e-0x-0xca/disclaimer
+/usr/share/mime/icons
+/usr/share/doc/apr/README.deepbind.deepbind
+/usr/share/cockpit/base1/cockpit.js.LEGAL.txt
+/usr/share/cockpit/selinux/selinux.css.LEGAL.txt
+/usr/share/cockpit/systemd/hwinfo.css.LEGAL.txt
+/usr/share/cockpit/systemd/logs.css.LEGAL.txt
+/usr/share/cockpit/systemd/overview.css.LEGAL.txt
+/usr/share/cockpit/systemd/services.css.LEGAL.txt
+/usr/share/cockpit/kdump/kdump.css.LEGAL.txt
+/usr/share/cockpit/shell/shell.css.LEGAL.txt
+/usr/share/cockpit/users/users.css.LEGAL.txt
+/usr/share/cockpit/metrics/index.css.LEGAL.txt
+/usr/share/cockpit/static/login.css.LEGAL.txt
+/usr/share/cockpit/static/login.js.LEGAL.txt
+/usr/share/cockpit/subscription-manager/po.js
+/usr/share/cockpit/networkmanager/firewall.css.LEGAL.txt
+/usr/share/cockpit/networkmanager/networkmanager.css.LEGAL.txt
+/usr/share/cockpit/sosreport/sosreport.css.LEGAL.txt
+/usr/share/cockpit/apps/apps.css.LEGAL.txt
+/usr/share/cockpit/packagekit/updates.css.LEGAL.txt
+[root@servera ~]# vim myscript.sh
+[root@servera ~]# vim /etc/login.defs 
+[root@servera ~]# useradd gowri
+[root@servera ~]# tail /etc/shadow
+libstoragemgmt:!*:19670::::::
+cloud-user:!!:19830:0:99999:7:::
+apache:!!:20241::::::
+harry:$6$2imtsspxrek3mIOt$k4e3CXdElSZIwgaO8/F07c3AFAGOEt6k8y568PeWRke4NvsmGOTJll41EjlpwDZJdGlEZpU2GwPOFVuX7L75M1:20241:0:99999:7:::
+natasha:$6$AfkJkHlLeGl/I1ly$WVn9rkfytN9zmMG/f3oPMEqV.47CNLuqZOUIQ2nvxYn.0teNHxrpCoD2NYcHW1nN/S6Pd/nFAOUv6BQbtmifS/:20241:0:99999:7:::
+sarah:$6$11YGrQK4oObwueKn$ZLMSw2uanMPgmTjI8dbk.o0JsMaDXzZPK2QCXcCZfI.vPTDeyyzqMQkrwV.KzRKFcuXx5aZMlcUOQQA03rq4W0:20241:0:99999:7:::
+production7:$6$i980m.vTGmhLv3Ad$d/TvpTUn9bJ5cZ5RNQwC1z5PK/d72vWYOIYYLvRT/1RsTsR4OsbHyCpJs4VRXo9rBrVFufDJWIwu76j6/Yzxh/:20241:0:99999:7:::
+alies:!!:20241:0:99999:7:::
+contsvc:$6$jqK3QJkPOy1N66K4$LFPHb0OTVtIk4JydBhoozH/6aO6P3MGW9e9aNJrtYD3cnWqqq7YhEd8iCaayDqyB1WfTKCz6491cKdNhkpZu80:20241:0:99999:7:::
+gowri:!!:20241:0:20:7:::
+[root@servera ~]# 
