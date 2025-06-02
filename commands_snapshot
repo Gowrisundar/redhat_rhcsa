@@ -477,4 +477,354 @@ apache:!!:20241::::::
 harry:$6$2imtsspxrek3mIOt$k4e3CXdElSZIwgaO8/F07c3AFAGOEt6k8y568PeWRke4NvsmGOTJll41EjlpwDZJdGlEZpU2GwPOFVuX7L75M1:20241:0:99999:7:::
 natasha:$6$AfkJkHlLeGl/I1ly$WVn9rkfytN9zmMG/f3oPMEqV.47CNLuqZOUIQ2nvxYn.0teNHxrpCoD2NYcHW1nN/S6Pd/nFAOUv6BQbtmifS/:20241:0:99999:7:::
 sarah:$6$11YGrQK4oObwueKn$ZLMSw2uanMPgmTjI8dbk.o0JsMaDXzZPK2QCXcCZfI.vPTDeyyzqMQkrwV.KzRKFcuXx5aZMlcUOQQA03rq4W0:20241:0:99999:7:::
+[root@servera ~]# mkdir -p /common/sysadmin
+[root@servera ~]# chgrp sysadmin /common/sysadmin
+[root@servera ~]# chmod 770 /common/sysadmin
+[root@servera ~]# chmod g+s /common/sysadmin
+[root@servera ~]# touch /common/sysadmin/gowri
+[root@servera ~]# ls -l /common/sysadmin
+total 0
+-rw-r--r--. 1 root sysadmin 0 Jun  2 05:45 gowri
+[root@servera ~]# ls -l /common
+total 0
+drwxrws---. 2 root sysadmin 19 Jun  2 05:45 sysadmin
+[root@servera ~]# dnf install autofs -y
+Last metadata expiration check: 0:22:41 ago on Mon Jun  2 05:25:11 2025.
+Dependencies resolved.
+==============================================================================================================================
+ Package                      Architecture       Version                    Repository                                   Size
+==============================================================================================================================
+Installing:
+ autofs                       x86_64             1:5.1.7-55.el9             rhel-9.3-for-x86_64-baseos-rpms             392 k
+Installing dependencies:
+ libsss_autofs                x86_64             2.9.1-2.el9                rhel-9.3-for-x86_64-baseos-rpms              44 k
+Downgrading:
+ libipa_hbac                  x86_64             2.9.1-2.el9                rhel-9.3-for-x86_64-baseos-rpms              41 k
+ libsss_certmap               x86_64             2.9.1-2.el9                rhel-9.3-for-x86_64-baseos-rpms              97 k
+ libsss_idmap                 x86_64             2.9.1-2.el9                rhel-9.3-for-x86_64-baseos-rpms              47 k
+ libsss_nss_idmap             x86_64             2.9.1-2.el9                rhel-9.3-for-x86_64-baseos-rpms              51 k
+ libsss_sudo                  x86_64             2.9.1-2.el9                rhel-9.3-for-x86_64-baseos-rpms              40 k
+ sssd                         x86_64             2.9.1-2.el9                rhel-9.3-for-x86_64-baseos-rpms              32 k
+ sssd-ad                      x86_64             2.9.1-2.el9                rhel-9.3-for-x86_64-baseos-rpms             220 k
+ sssd-client                  x86_64             2.9.1-2.el9                rhel-9.3-for-x86_64-baseos-rpms             173 k
+ sssd-common                  x86_64             2.9.1-2.el9                rhel-9.3-for-x86_64-baseos-rpms             1.6 M
+ sssd-common-pac              x86_64             2.9.1-2.el9                rhel-9.3-for-x86_64-baseos-rpms             101 k
+ sssd-ipa                     x86_64             2.9.1-2.el9                rhel-9.3-for-x86_64-baseos-rpms             287 k
+ sssd-kcm                     x86_64             2.9.1-2.el9                rhel-9.3-for-x86_64-baseos-rpms             115 k
+ sssd-krb5                    x86_64             2.9.1-2.el9                rhel-9.3-for-x86_64-baseos-rpms              80 k
+ sssd-krb5-common             x86_64             2.9.1-2.el9                rhel-9.3-for-x86_64-baseos-rpms             107 k
+ sssd-ldap                    x86_64             2.9.1-2.el9                rhel-9.3-for-x86_64-baseos-rpms             165 k
+ sssd-nfs-idmap               x86_64             2.9.1-2.el9                rhel-9.3-for-x86_64-baseos-rpms              45 k
+ sssd-proxy                   x86_64             2.9.1-2.el9                rhel-9.3-for-x86_64-baseos-rpms              75 k
+
+Transaction Summary
+==============================================================================================================================
+Install     2 Packages
+Downgrade  17 Packages
+
+Total download size: 3.7 M
+Downloading Packages:
+(1/19): libipa_hbac-2.9.1-2.el9.x86_64.rpm                                                    1.6 MB/s |  41 kB     00:00    
+(2/19): libsss_idmap-2.9.1-2.el9.x86_64.rpm                                                   1.4 MB/s |  47 kB     00:00    
+(3/19): libsss_certmap-2.9.1-2.el9.x86_64.rpm                                                 2.2 MB/s |  97 kB     00:00    
+(4/19): libsss_nss_idmap-2.9.1-2.el9.x86_64.rpm                                               2.2 MB/s |  51 kB     00:00    
+(5/19): libsss_sudo-2.9.1-2.el9.x86_64.rpm                                                    2.0 MB/s |  40 kB     00:00    
+(6/19): sssd-2.9.1-2.el9.x86_64.rpm                                                           1.1 MB/s |  32 kB     00:00    
+(7/19): sssd-client-2.9.1-2.el9.x86_64.rpm                                                    5.5 MB/s | 173 kB     00:00    
+(8/19): sssd-ad-2.9.1-2.el9.x86_64.rpm                                                        5.2 MB/s | 220 kB     00:00    
+(9/19): sssd-common-pac-2.9.1-2.el9.x86_64.rpm                                                8.0 MB/s | 101 kB     00:00    
+(10/19): sssd-ipa-2.9.1-2.el9.x86_64.rpm                                                       15 MB/s | 287 kB     00:00    
+(11/19): sssd-kcm-2.9.1-2.el9.x86_64.rpm                                                      6.6 MB/s | 115 kB     00:00    
+(12/19): sssd-krb5-2.9.1-2.el9.x86_64.rpm                                                     8.3 MB/s |  80 kB     00:00    
+(13/19): sssd-krb5-common-2.9.1-2.el9.x86_64.rpm                                               11 MB/s | 107 kB     00:00    
+(14/19): sssd-ldap-2.9.1-2.el9.x86_64.rpm                                                      13 MB/s | 165 kB     00:00    
+(15/19): sssd-nfs-idmap-2.9.1-2.el9.x86_64.rpm                                                3.8 MB/s |  45 kB     00:00    
+(16/19): sssd-proxy-2.9.1-2.el9.x86_64.rpm                                                    7.9 MB/s |  75 kB     00:00    
+(17/19): sssd-common-2.9.1-2.el9.x86_64.rpm                                                    20 MB/s | 1.6 MB     00:00    
+(18/19): libsss_autofs-2.9.1-2.el9.x86_64.rpm                                                 1.9 MB/s |  44 kB     00:00    
+(19/19): autofs-5.1.7-55.el9.x86_64.rpm                                                        11 MB/s | 392 kB     00:00    
+------------------------------------------------------------------------------------------------------------------------------
+Total                                                                                          21 MB/s | 3.7 MB     00:00     
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                                                                      1/1 
+  Downgrading      : libsss_idmap-2.9.1-2.el9.x86_64                                                                     1/36 
+  Downgrading      : libsss_certmap-2.9.1-2.el9.x86_64                                                                   2/36 
+  Installing       : libsss_autofs-2.9.1-2.el9.x86_64                                                                    3/36 
+  Downgrading      : sssd-nfs-idmap-2.9.1-2.el9.x86_64                                                                   4/36 
+  Downgrading      : libsss_sudo-2.9.1-2.el9.x86_64                                                                      5/36 
+  Downgrading      : libsss_nss_idmap-2.9.1-2.el9.x86_64                                                                 6/36 
+  Downgrading      : sssd-client-2.9.1-2.el9.x86_64                                                                      7/36 
+  Running scriptlet: sssd-client-2.9.1-2.el9.x86_64                                                                      7/36 
+  Running scriptlet: sssd-common-2.9.1-2.el9.x86_64                                                                      8/36 
+  Downgrading      : sssd-common-2.9.1-2.el9.x86_64                                                                      8/36 
+  Running scriptlet: sssd-common-2.9.1-2.el9.x86_64                                                                      8/36 
+  Downgrading      : sssd-krb5-common-2.9.1-2.el9.x86_64                                                                 9/36 
+  Downgrading      : sssd-common-pac-2.9.1-2.el9.x86_64                                                                 10/36 
+  Downgrading      : sssd-ad-2.9.1-2.el9.x86_64                                                                         11/36 
+  Downgrading      : sssd-krb5-2.9.1-2.el9.x86_64                                                                       12/36 
+  Downgrading      : sssd-ldap-2.9.1-2.el9.x86_64                                                                       13/36 
+  Downgrading      : sssd-proxy-2.9.1-2.el9.x86_64                                                                      14/36 
+  Downgrading      : libipa_hbac-2.9.1-2.el9.x86_64                                                                     15/36 
+  Downgrading      : sssd-ipa-2.9.1-2.el9.x86_64                                                                        16/36 
+  Downgrading      : sssd-2.9.1-2.el9.x86_64                                                                            17/36 
+  Downgrading      : sssd-kcm-2.9.1-2.el9.x86_64                                                                        18/36 
+  Running scriptlet: sssd-kcm-2.9.1-2.el9.x86_64                                                                        18/36 
+  Installing       : autofs-1:5.1.7-55.el9.x86_64                                                                       19/36 
+  Running scriptlet: autofs-1:5.1.7-55.el9.x86_64                                                                       19/36 
+  Cleanup          : sssd-2.9.1-4.el9_3.x86_64                                                                          20/36 
+  Cleanup          : sssd-ipa-2.9.1-4.el9_3.x86_64                                                                      21/36 
+  Cleanup          : sssd-ad-2.9.1-4.el9_3.x86_64                                                                       22/36 
+  Cleanup          : sssd-ldap-2.9.1-4.el9_3.x86_64                                                                     23/36 
+  Cleanup          : sssd-common-pac-2.9.1-4.el9_3.x86_64                                                               24/36 
+  Cleanup          : sssd-krb5-2.9.1-4.el9_3.x86_64                                                                     25/36 
+  Cleanup          : sssd-proxy-2.9.1-4.el9_3.x86_64                                                                    26/36 
+  Running scriptlet: sssd-kcm-2.9.1-4.el9_3.x86_64                                                                      27/36 
+  Cleanup          : sssd-kcm-2.9.1-4.el9_3.x86_64                                                                      27/36 
+  Running scriptlet: sssd-kcm-2.9.1-4.el9_3.x86_64                                                                      27/36 
+  Cleanup          : sssd-krb5-common-2.9.1-4.el9_3.x86_64                                                              28/36 
+  Running scriptlet: sssd-common-2.9.1-4.el9_3.x86_64                                                                   29/36 
+  Cleanup          : sssd-common-2.9.1-4.el9_3.x86_64                                                                   29/36 
+  Running scriptlet: sssd-common-2.9.1-4.el9_3.x86_64                                                                   29/36 
+  Running scriptlet: sssd-client-2.9.1-4.el9_3.x86_64                                                                   30/36 
+  Cleanup          : sssd-client-2.9.1-4.el9_3.x86_64                                                                   30/36 
+  Cleanup          : libsss_idmap-2.9.1-4.el9_3.x86_64                                                                  31/36 
+  Cleanup          : libsss_nss_idmap-2.9.1-4.el9_3.x86_64                                                              32/36 
+  Cleanup          : libsss_sudo-2.9.1-4.el9_3.x86_64                                                                   33/36 
+  Cleanup          : sssd-nfs-idmap-2.9.1-4.el9_3.x86_64                                                                34/36 
+  Cleanup          : libsss_certmap-2.9.1-4.el9_3.x86_64                                                                35/36 
+  Cleanup          : libipa_hbac-2.9.1-4.el9_3.x86_64                                                                   36/36 
+  Running scriptlet: sssd-common-2.9.1-2.el9.x86_64                                                                     36/36 
+  Running scriptlet: libipa_hbac-2.9.1-4.el9_3.x86_64                                                                   36/36 
+  Verifying        : libipa_hbac-2.9.1-2.el9.x86_64                                                                      1/36 
+  Verifying        : libipa_hbac-2.9.1-4.el9_3.x86_64                                                                    2/36 
+  Verifying        : libsss_certmap-2.9.1-2.el9.x86_64                                                                   3/36 
+  Verifying        : libsss_certmap-2.9.1-4.el9_3.x86_64                                                                 4/36 
+  Verifying        : libsss_idmap-2.9.1-2.el9.x86_64                                                                     5/36 
+  Verifying        : libsss_idmap-2.9.1-4.el9_3.x86_64                                                                   6/36 
+  Verifying        : libsss_nss_idmap-2.9.1-2.el9.x86_64                                                                 7/36 
+  Verifying        : libsss_nss_idmap-2.9.1-4.el9_3.x86_64                                                               8/36 
+  Verifying        : libsss_sudo-2.9.1-2.el9.x86_64                                                                      9/36 
+  Verifying        : libsss_sudo-2.9.1-4.el9_3.x86_64                                                                   10/36 
+  Verifying        : sssd-2.9.1-2.el9.x86_64                                                                            11/36 
+  Verifying        : sssd-2.9.1-4.el9_3.x86_64                                                                          12/36 
+  Verifying        : sssd-ad-2.9.1-2.el9.x86_64                                                                         13/36 
+  Verifying        : sssd-ad-2.9.1-4.el9_3.x86_64                                                                       14/36 
+  Verifying        : sssd-client-2.9.1-2.el9.x86_64                                                                     15/36 
+  Verifying        : sssd-client-2.9.1-4.el9_3.x86_64                                                                   16/36 
+  Verifying        : sssd-common-2.9.1-2.el9.x86_64                                                                     17/36 
+  Verifying        : sssd-common-2.9.1-4.el9_3.x86_64                                                                   18/36 
+  Verifying        : sssd-common-pac-2.9.1-2.el9.x86_64                                                                 19/36 
+  Verifying        : sssd-common-pac-2.9.1-4.el9_3.x86_64                                                               20/36 
+  Verifying        : sssd-ipa-2.9.1-2.el9.x86_64                                                                        21/36 
+  Verifying        : sssd-ipa-2.9.1-4.el9_3.x86_64                                                                      22/36 
+  Verifying        : sssd-kcm-2.9.1-2.el9.x86_64                                                                        23/36 
+  Verifying        : sssd-kcm-2.9.1-4.el9_3.x86_64                                                                      24/36 
+  Verifying        : sssd-krb5-2.9.1-2.el9.x86_64                                                                       25/36 
+  Verifying        : sssd-krb5-2.9.1-4.el9_3.x86_64                                                                     26/36 
+  Verifying        : sssd-krb5-common-2.9.1-2.el9.x86_64                                                                27/36 
+  Verifying        : sssd-krb5-common-2.9.1-4.el9_3.x86_64                                                              28/36 
+  Verifying        : sssd-ldap-2.9.1-2.el9.x86_64                                                                       29/36 
+  Verifying        : sssd-ldap-2.9.1-4.el9_3.x86_64                                                                     30/36 
+  Verifying        : sssd-nfs-idmap-2.9.1-2.el9.x86_64                                                                  31/36 
+  Verifying        : sssd-nfs-idmap-2.9.1-4.el9_3.x86_64                                                                32/36 
+  Verifying        : sssd-proxy-2.9.1-2.el9.x86_64                                                                      33/36 
+  Verifying        : sssd-proxy-2.9.1-4.el9_3.x86_64                                                                    34/36 
+  Verifying        : autofs-1:5.1.7-55.el9.x86_64                                                                       35/36 
+  Verifying        : libsss_autofs-2.9.1-2.el9.x86_64                                                                   36/36 
+
+Downgraded:
+  libipa_hbac-2.9.1-2.el9.x86_64             libsss_certmap-2.9.1-2.el9.x86_64          libsss_idmap-2.9.1-2.el9.x86_64       
+  libsss_nss_idmap-2.9.1-2.el9.x86_64        libsss_sudo-2.9.1-2.el9.x86_64             sssd-2.9.1-2.el9.x86_64               
+  sssd-ad-2.9.1-2.el9.x86_64                 sssd-client-2.9.1-2.el9.x86_64             sssd-common-2.9.1-2.el9.x86_64        
+  sssd-common-pac-2.9.1-2.el9.x86_64         sssd-ipa-2.9.1-2.el9.x86_64                sssd-kcm-2.9.1-2.el9.x86_64           
+  sssd-krb5-2.9.1-2.el9.x86_64               sssd-krb5-common-2.9.1-2.el9.x86_64        sssd-ldap-2.9.1-2.el9.x86_64          
+  sssd-nfs-idmap-2.9.1-2.el9.x86_64          sssd-proxy-2.9.1-2.el9.x86_64             
+Installed:
+  autofs-1:5.1.7-55.el9.x86_64                                libsss_autofs-2.9.1-2.el9.x86_64                               
+
+Complete!
+[root@servera ~]# systemctl enable --now autofs
+Created symlink /etc/systemd/system/multi-user.target.wants/autofs.service → /usr/lib/systemd/system/autofs.service.
+[root@servera ~]# vim /etc/au
+audit/                 auto.master            auto.misc              auto.smb               autofs_ldap_auth.conf
+authselect/            auto.master.d/         auto.net               autofs.conf            
+[root@servera ~]# vim /etc/au
+audit/                 auto.master            auto.misc              auto.smb               autofs_ldap_auth.conf
+authselect/            auto.master.d/         auto.net               autofs.conf            
+[root@servera ~]# vim /etc/au
+audit/                 auto.master            auto.misc              auto.smb               autofs_ldap_auth.conf
+authselect/            auto.master.d/         auto.net               autofs.conf            
+[root@servera ~]# vim /etc/auto.m
+auto.master    auto.master.d/ auto.misc      
+[root@servera ~]# vim /etc/auto.master
+[root@servera ~]# vim /etc/auto.misc
+[root@servera ~]# systemctl restart autofps
+Failed to restart autofps.service: Unit autofps.service not found.
+[root@servera ~]# systemctl restart autofs
+[root@servera ~]# mkdir /user-homes/production7
+mkdir: cannot create directory ‘/user-homes/production7’: No such file or directory
+[root@servera ~]# mkdir -p /user-homes/production7
+[root@servera ~]# useradd -d /local production7
+useradd: warning: the home directory /local already exists.
+useradd: Not copying any file from skel directory into it.
+[root@servera ~]# tail /etc/passwd
+systemd-oom:x:988:988:systemd Userspace OOM Killer:/:/usr/sbin/nologin
+student:x:1000:1000:Student User:/home/student:/bin/bash
+devops:x:1001:1001:Devops User:/home/devops:/bin/bash
+libstoragemgmt:x:986:986:daemon account for libstoragemgmt:/:/usr/sbin/nologin
+cloud-user:x:1002:1002:Cloud User:/home/cloud-user:/bin/bash
+apache:x:48:48:Apache:/usr/share/httpd:/sbin/nologin
+harry:x:1003:1004::/home/harry:/bin/bash
+natasha:x:1004:1005::/home/natasha:/bin/bash
+sarah:x:1005:1006::/home/sarah:/sbin/nologin
+production7:x:1006:1007::/local:/bin/bash
+[root@servera ~]# passwd production7 --stdin
+Changing password for user production7.
+redhat
+passwd: all authentication tokens updated successfully.
+[root@servera ~]# su - production7
+[production7@servera ~]$ pwd
+/local
+[production7@servera ~]$ exit
+logout
+[root@servera ~]# systemctl restart autofs
+[root@servera ~]# su - production7
+Last login: Mon Jun  2 05:54:53 UTC 2025 on pts/0
+[production7@servera ~]$ pwd
+/local
+[production7@servera ~]$ exit
+logout
+[root@servera ~]# vim /etc/auto.misc 
+[root@servera ~]# ssh root@serverb
+The authenticity of host 'serverb (172.25.250.11)' can't be established.
+ED25519 key fingerprint is SHA256:wv1PUfRiR6ScY80t2qfe8utb1ULPS2I0hpL6zWop/so.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? y
+Please type 'yes', 'no' or the fingerprint: 
+Host key verification failed.
+[root@servera ~]# ssh root@serverb
+The authenticity of host 'serverb (172.25.250.11)' can't be established.
+ED25519 key fingerprint is SHA256:wv1PUfRiR6ScY80t2qfe8utb1ULPS2I0hpL6zWop/so.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'serverb' (ED25519) to the list of known hosts.
+root@serverb's password: 
+Permission denied, please try again.
+root@serverb's password: 
+Permission denied, please try again.
+root@serverb's password: 
+
+[1]+  Stopped                 ssh root@serverb
+[root@servera ~]# exit
+logout
+There are stopped jobs.
+[root@servera ~]# exit
+logout
+Connection to servera closed.
+[student@workstation ~]$ ssh root@servera
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Register this system with Red Hat Insights: insights-client --register
+Create an account or view all your systems at https://red.ht/insights-dashboard
+Last login: Mon Jun  2 05:15:28 2025 from 172.25.250.9
+[root@servera ~]# vim /etc/auto.misc 
+[root@servera ~]# systemctl restart autofs
+[root@servera ~]# exit
+logout
+Connection to servera closed.
+[student@workstation ~]$ su - production7
+su: user production7 does not exist or the user entry does not contain all the required fields
+[student@workstation ~]$ su - production7@servera
+su: user production7@servera does not exist or the user entry does not contain all the required fields
+[student@workstation ~]$ su - production7@servera
+su: user production7@servera does not exist or the user entry does not contain all the required fields
+[student@workstation ~]$ su - natasha@servera
+su: user natasha@servera does not exist or the user entry does not contain all the required fields
+[student@workstation ~]$ su - root@servea
+su: user root@servea does not exist or the user entry does not contain all the required fields
+[student@workstation ~]$ ssh production7@servera
+Register this system with Red Hat Insights: insights-client --register
+Create an account or view all your systems at https://red.ht/insights-dashboard
+Last login: Mon Jun  2 05:55:32 2025
+[production7@servera ~]$ pwd
+/local
+[production7@servera ~]$ exit
+logout
+Connection to servera closed.
+[student@workstation ~]$ ssh root@servera
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Register this system with Red Hat Insights: insights-client --register
+Create an account or view all your systems at https://red.ht/insights-dashboard
+Last login: Mon Jun  2 05:58:41 2025 from 172.25.250.9
+[root@servera ~]# crontab -eu harry
+no crontab for harry - using an empty one
+crontab: installing new crontab
+[root@servera ~]# crontab -lu harry
+*/5 12 * * * logger "Welcome RHCSA in Progress"
+[root@servera ~]# vim /etc/chrony.
+chrony.conf  chrony.keys  
+[root@servera ~]# vim /etc/chrony.
+chrony.conf  chrony.keys  
+[root@servera ~]# vim /etc/chrony.conf
+[root@servera ~]# systemctl restart chronyd.service 
+[root@servera ~]# chr
+chronyc  chronyd  chroot   chrt     
+[root@servera ~]# chronyc sources -v
+
+  .-- Source mode  '^' = server, '=' = peer, '#' = local clock.
+ / .- Source state '*' = current best, '+' = combined, '-' = not combined,
+| /             'x' = may be in error, '~' = too variable, '?' = unusable.
+||                                                 .- xxxx [ yyyy ] +/- zzzz
+||      Reachability register (octal) -.           |  xxxx = adjusted offset,
+||      Log2(Polling interval) --.      |          |  yyyy = measured offset,
+||                                \     |          |  zzzz = estimated error.
+||                                 |    |           \
+MS Name/IP address         Stratum Poll Reach LastRx Last sample               
+===============================================================================
+^* classroom.example.com         3   6    17    28    +15us[  +46us] +/- 2996us
+[root@servera ~]# timedatectl
+               Local time: Mon 2025-06-02 06:05:03 UTC
+           Universal time: Mon 2025-06-02 06:05:03 UTC
+                 RTC time: Mon 2025-06-02 06:05:03
+                Time zone: UTC (UTC, +0000)
+System clock synchronized: yes
+              NTP service: active
+          RTC in local TZ: no
+[root@servera ~]# find / -type f -user harry
+/home/harry/.bash_logout
+/home/harry/.bash_profile
+/home/harry/.bashrc
+find: ‘/proc/29439/task/29439/fdinfo/5’: No such file or directory
+find: ‘/proc/29439/fdinfo/6’: No such file or directory
+/var/spool/mail/harry
+[root@servera ~]# mkdir /root/find.user
+[root@servera ~]# find / -type f -user harry
+/home/harry/.bash_logout
+/home/harry/.bash_profile
+/home/harry/.bashrc
+find: ‘/proc/29445/task/29445/fdinfo/5’: No such file or directory
+find: ‘/proc/29445/fdinfo/6’: No such file or directory
+/var/spool/mail/harry
+[root@servera ~]# find / -type f -user harry -exec cp -rv {} /root/find.user \:
+find: missing argument to `-exec'
+[root@servera ~]# find / -type f -user harry -exec cp -rv {} /root/find.user \;
+'/home/harry/.bash_logout' -> '/root/find.user/.bash_logout'
+'/home/harry/.bash_profile' -> '/root/find.user/.bash_profile'
+'/home/harry/.bashrc' -> '/root/find.user/.bashrc'
+find: ‘/proc/29452/task/29452/fdinfo/5’: No such file or directory
+find: ‘/proc/29452/fdinfo/6’: No such file or directory
+'/var/spool/mail/harry' -> '/root/find.user/harry'
+[root@servera ~]# ls -la /root/find.user
+total 12
+drwxr-xr-x. 2 root root  75 Jun  2 06:08 .
+dr-xr-x---. 4 root root 173 Jun  2 06:06 ..
+-rw-r--r--. 1 root root  18 Jun  2 06:08 .bash_logout
+-rw-r--r--. 1 root root 141 Jun  2 06:08 .bash_profile
+-rw-r--r--. 1 root root 492 Jun  2 06:08 .bashrc
+-rw-r-----. 1 root root   0 Jun  2 06:08 harry
 [root@servera ~]# 
